@@ -8,8 +8,6 @@ import * as lightning from '../utils/lightning'
 import {tokenFromTerms} from '../utils/ldat'
 import * as constants from '../../config/constants.json'
 
-
-
 const sendPayment = async (req, res) => {
   const {
     amount,

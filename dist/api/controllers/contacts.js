@@ -42,8 +42,10 @@ exports.getContacts = getContacts;
 const generateToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('=> generateToken called', { body: req.body, params: req.params, query: req.query });
     const owner = yield models_1.models.Contact.findOne({ where: { isOwner: true, authToken: null } });
+    console.log('owner found: ', owner && owner.dataValues);
     const pwd = password_1.default;
     if (process.env.USE_PASSWORD === 'true') {
+        console.log("password required");
         if (pwd !== req.query.pwd) {
             res_1.failure(res, 'Wrong Password');
             return;
@@ -54,7 +56,7 @@ const generateToken = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     if (owner) {
         const hash = crypto.createHash('sha256').update(req.body['token']).digest('base64');
-        console.log("req.params['token']", req.params['token']);
+        console.log("req.body['token']", req.body['token']);
         console.log("hash", hash);
         owner.update({ authToken: hash });
         res_1.success(res, {});
