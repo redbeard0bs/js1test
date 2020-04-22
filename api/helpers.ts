@@ -100,7 +100,7 @@ const sendMessage = async (params) => {
 		const opts = {
 			dest: destkey,
 			data: JSON.stringify(finalMsg),
-			amt: amount || 1,
+			amt: amount || 3,
 		}
 		try {
 			const r = await keysendMessage(opts)
@@ -121,7 +121,7 @@ const performKeysendMessage = async ({ destination_key, amount, msg, success, fa
 	const opts = {
 		dest: destination_key,
 		data: msg || JSON.stringify({}),
-		amt: amount || 1
+		amt: amount || 3
 	}
 	try {
 		const r = await keysendMessage(opts)
@@ -229,10 +229,10 @@ function newmsg(type, chat, sender, message){
 			...chat.members && { members: chat.members },
 		},
 		message: message,
-		sender: {
-			pub_key: sender.publicKey,
-			// ...sender.contactKey && {contact_key: sender.contactKey}
-		}
+		// sender: {
+		// 	pub_key: sender.publicKey,
+		// 	// ...sender.contactKey && {contact_key: sender.contactKey}
+		// }
 	}
 }
 
@@ -240,7 +240,7 @@ function newkeyexchangemsg(type, sender){
 	return {
 		type: type,
 		sender: {
-			pub_key: sender.publicKey,
+			// pub_key: sender.publicKey,
 			contact_key: sender.contactKey,
 			...sender.alias && {alias: sender.alias},
 			// ...sender.photoUrl && {photoUrl: sender.photoUrl}

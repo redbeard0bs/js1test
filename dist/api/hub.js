@@ -39,13 +39,12 @@ const checkInviteHub = (params = {}) => __awaiter(void 0, void 0, void 0, functi
                 const invite = object.invite;
                 const pubkey = object.pubkey;
                 const price = object.price;
-                const invoice = object.invoice;
                 const dbInvite = yield models_1.models.Invite.findOne({ where: { inviteString: invite.pin } });
                 const contact = yield models_1.models.Contact.findOne({ where: { id: dbInvite.contactId } });
                 if (dbInvite.status != invite.invite_status) {
                     const updateObj = { status: invite.invite_status, price: price };
-                    if (invoice)
-                        updateObj.invoice = invoice;
+                    if (invite.invoice)
+                        updateObj.invoice = invite.invoice;
                     dbInvite.update(updateObj);
                     socket.sendJson({
                         type: 'invite',
@@ -107,11 +106,11 @@ const checkInvitesHubInterval = (ms) => {
     setInterval(checkInviteHub, ms);
 };
 exports.checkInvitesHubInterval = checkInvitesHubInterval;
-function sendInvoice(payReq) {
+function sendInvoice(payReq, amount) {
     console.log('[hub] sending invoice');
     fetch(config.hub_api_url + '/invoices', {
         method: 'POST',
-        body: JSON.stringify({ invoice: payReq }),
+        body: JSON.stringify({ invoice: payReq, amount }),
         headers: { 'Content-Type': 'application/json' }
     })
         .then(res => res.json())
@@ -131,14 +130,12 @@ const finishInviteInHub = (params, onSuccess, onFailure) => {
     })
         .then(res => res.json())
         .then(json => {
-        if (json.object) {
-            console.log('[hub] finished invite to hub');
-            onSuccess(json);
-        }
-        else {
-            console.log('[hub] fail to finish invite in hub');
-            onFailure(json);
-        }
+        console.log('[hub] finished invite to hub');
+        onSuccess(json);
+    })
+        .catch(e => {
+        console.log('[hub] fail to finish invite in hub');
+        onFailure(e);
     });
 };
 exports.finishInviteInHub = finishInviteInHub;
@@ -224,7 +221,7 @@ const sendNotification = (chat, name, type) => __awaiter(void 0, void 0, void 0,
             badge: unseenMessages.length
         }
     };
-    fetch("http://hub.sphinx.chat/api/v1/nodes/notify", {
+    fetch("https://hub.sphinx.chat/api/v1/nodes/notify", {
         method: 'POST',
         body: JSON.stringify(params),
         headers: { 'Content-Type': 'application/json' }

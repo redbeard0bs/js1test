@@ -101,7 +101,7 @@ const sendMessage = (params) => __awaiter(void 0, void 0, void 0, function* () {
         const opts = {
             dest: destkey,
             data: JSON.stringify(finalMsg),
-            amt: amount || 1,
+            amt: amount || 3,
         };
         try {
             const r = yield lightning_1.keysendMessage(opts);
@@ -126,7 +126,7 @@ const performKeysendMessage = ({ destination_key, amount, msg, success, failure 
     const opts = {
         dest: destination_key,
         data: msg || JSON.stringify({}),
-        amt: amount || 1
+        amt: amount || 3
     };
     try {
         const r = yield lightning_1.keysendMessage(opts);
@@ -227,15 +227,14 @@ function newmsg(type, chat, sender, message) {
         type: type,
         chat: Object.assign(Object.assign(Object.assign({ uuid: chat.uuid }, chat.name && { name: chat.name }), chat.type && { type: chat.type }), chat.members && { members: chat.members }),
         message: message,
-        sender: {
-            pub_key: sender.publicKey,
-        }
     };
 }
 function newkeyexchangemsg(type, sender) {
     return {
         type: type,
-        sender: Object.assign({ pub_key: sender.publicKey, contact_key: sender.contactKey }, sender.alias && { alias: sender.alias })
+        sender: Object.assign({ 
+            // pub_key: sender.publicKey,
+            contact_key: sender.contactKey }, sender.alias && { alias: sender.alias })
     };
 }
 //# sourceMappingURL=helpers.js.map
