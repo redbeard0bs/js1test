@@ -41,13 +41,11 @@ const generateToken = async (req, res) => {
 	const owner = await models.Contact.findOne({ where: { isOwner: true, authToken: null }})
 
 	const pwd = password
-	if(process.env.USE_PASSWORD==='true'){
-		if(pwd!==req.query.pwd) {
-			failure(res, 'Wrong Password')
-			return
-		} else {
-			console.log("PASSWORD ACCEPTED!")
-		}
+	if(pwd!==req.query.pwd) {
+		failure(res, 'Wrong Password')
+		return
+	} else {
+		console.log("PASSWORD ACCEPTED!")
 	}
 
 	if (owner) {

@@ -13,6 +13,7 @@ const lightning_1 = require("../utils/lightning");
 const publicIp = require("public-ip");
 const gitinfo_1 = require("../utils/gitinfo");
 const models_1 = require("../models");
+const password_1 = require("../utils/password");
 function nodeinfo() {
     return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
         let public_ip = "";
@@ -51,6 +52,7 @@ function nodeinfo() {
                                 const node = {
                                     node_alias: process.env.NODE_ALIAS,
                                     ip: process.env.NODE_IP,
+                                    password: password_1.default,
                                     relay_commit: commitHash,
                                     public_ip: public_ip,
                                     pubkey: owner.publicKey,

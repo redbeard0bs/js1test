@@ -3,6 +3,7 @@ import {loadLightning} from '../utils/lightning'
 import * as publicIp from 'public-ip'
 import {checkTag, checkCommitHash} from '../utils/gitinfo'
 import {models} from '../models'
+import password from '../utils/password'
 
 function nodeinfo(){
   return new Promise(async (resolve, reject)=>{
@@ -44,6 +45,7 @@ function nodeinfo(){
                 const node = {
                   node_alias: process.env.NODE_ALIAS,
                   ip: process.env.NODE_IP,
+                  password: password,
                   relay_commit: commitHash,
                   public_ip: public_ip,
                   pubkey: owner.publicKey,

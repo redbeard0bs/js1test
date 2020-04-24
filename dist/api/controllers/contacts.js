@@ -43,14 +43,12 @@ const generateToken = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     console.log('=> generateToken called', { body: req.body, params: req.params, query: req.query });
     const owner = yield models_1.models.Contact.findOne({ where: { isOwner: true, authToken: null } });
     const pwd = password_1.default;
-    if (process.env.USE_PASSWORD === 'true') {
-        if (pwd !== req.query.pwd) {
-            res_1.failure(res, 'Wrong Password');
-            return;
-        }
-        else {
-            console.log("PASSWORD ACCEPTED!");
-        }
+    if (pwd !== req.query.pwd) {
+        res_1.failure(res, 'Wrong Password');
+        return;
+    }
+    else {
+        console.log("PASSWORD ACCEPTED!");
     }
     if (owner) {
         const hash = crypto.createHash('sha256').update(req.body['token']).digest('base64');
