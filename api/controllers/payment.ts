@@ -105,10 +105,13 @@ const sendPayment = async (req, res) => {
       // console.log('payment sent', { data })
       success(res, jsonUtils.messageToJson(message, chat))
     },
-    failure: (error) => {
-      message.update({status: constants.statuses.failed})
+    failure: async (error) => {
+      await message.update({status: constants.statuses.failed})
       res.status(200);
-      res.json({ success: false, error });
+      res.json({ 
+        success: false, 
+        response: jsonUtils.messageToJson(message, chat)
+      });
       res.end();
     }
   })
