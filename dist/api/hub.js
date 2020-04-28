@@ -173,7 +173,7 @@ function payInviteInvoice(invoice, onSuccess, onFailure) {
 }
 exports.payInviteInvoice = payInviteInvoice;
 const createInviteInHub = (params, onSuccess, onFailure) => {
-    fetch(config.hub_api_url + '/invites_new', {
+    fetch(config.hub_api_url + '/invites', {
         method: 'POST',
         body: JSON.stringify(params),
         headers: { 'Content-Type': 'application/json' }
