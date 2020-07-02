@@ -14,7 +14,7 @@ const config = require(path.join(__dirname,'../../config/config.json'))[env]
 
 const sequelize = new Sequelize({
   ...config,
-  logging: process.env.SQL_LOG==='true' ? console.log : false,
+  logging: true,//process.env.SQL_LOG==='true' ? console.log : false,
   models: [Chat,Contact,Invite,Message,Subscription,MediaKey,ChatMember,Timer]
 })
 const models = sequelize.models
